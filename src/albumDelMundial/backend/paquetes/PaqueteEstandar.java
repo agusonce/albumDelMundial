@@ -1,16 +1,13 @@
-package albumDelMundial.backend;
+package albumDelMundial.backend.paquetes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import albumDelMundial.backend.Album;
+
 public class PaqueteEstandar implements IPaquete{
 	
-	public PaqueteEstandar (){
-		
-	}
-	
-	//implementarpedir paquete con archivos
 	public List<Integer> pedirPaquete() {
 		List<Integer> res = new ArrayList<Integer>();
 		//random de 1 a 629 <-- creo

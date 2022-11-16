@@ -1,7 +1,5 @@
 package albumDelMundial.backend;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class Album {
 	public final static int CANTIDAD_DE_FIGURITAS = 20;//redefinir lugar,  aca no va

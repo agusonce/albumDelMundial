@@ -1,34 +1,36 @@
-package albumDelMundial.backend.simulator;
+package albumDelMundial.backend.simulacion;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import albumDelMundial.backend.IPaquete;
-import albumDelMundial.backend.JsonFile;
-import albumDelMundial.backend.PaqueteEstandar;
+import albumDelMundial.backend.Dato;
 import albumDelMundial.backend.Participante;
-import albumDelMundial.backend.serializacion.DatosSimulacion;
+import albumDelMundial.backend.paquetes.IPaquete;
+import albumDelMundial.backend.paquetes.PaqueteEstandar;
+//import albumDelMundial.backend.serializacion.JsonFile;
 
-public class Simulacion {
-	private Participante participante;
+public class Simulacion implements ISimulacion{
 	private IPaquete paquete = new PaqueteEstandar();
-	private int cantPaquetes;
+	private List<Dato> simulaciones;
 	private int iteraciones;
+//	private String fileName = "example.json";
 	public Simulacion() {
 		 paquete = new PaqueteEstandar();
-		 this.cantPaquetes = 0;
 		 this.iteraciones = 1;
 	}
 	public Simulacion(int iteraciones) {
 		 paquete = new PaqueteEstandar();
-		 this.cantPaquetes = 0;
 		 this.iteraciones = iteraciones;
 	}
 	
 	
 	public void ejecutar() {
-		DatosSimulacion simulacion = DatosSimulacion.getInstance();
+		simulaciones = new ArrayList<Dato>();
 		Date fechaEjecucion;
+		
+		Participante participante;
+		int cantPaquetes;
 		//_-____--WHILE---_-_____
 		for(int x = 0; x <= iteraciones ; x++) {
 			fechaEjecucion = new Date();
@@ -36,42 +38,44 @@ public class Simulacion {
 			participante = new Participante();
 			while (!participante.albumIsCompleto()) {
 				List<Integer> res = pedirpaquete();
-				
+				cantPaquetes ++;
 				for(Integer f: res)
 					participante.recivirCarta(f);
 				
 				participante.cargarAlbum();
 			}
 			
-			
 			//crear linea
-			DatosSimulacion.Dato linea = simulacion.nuevaLinea();
+			Dato linea = new Dato();
 			linea.setCantPaquetes(cantPaquetes);
 			linea.setParticipante(participante.getId());
 			linea.setFecha(fechaEjecucion);
 	
-			//guardarDato
-			simulacion.addSimulacion(linea);
+			simulaciones.add(linea);
 		}
 		
+		//guardarDato
 		//manejo de archivos
-		JsonFile export = new JsonFile(simulacion.getSimulaciones());
-		export.guardarJson(export.generarJson(), "./src/resource/example.json");
-		//simulacion.guardarJson(simulacion.generarJson(), "./src/resource/example.json");
+//		JsonFile export = new JsonFile(simulaciones);
+//		export.eliminarArchivo(fileName);
+//		export.guardarJson(export.generarJsonPretty(), fileName);
 		//archivos
 		
 		
 		
 	}
 	
+	public void setIteraciones(int iteraciones) {
+		this.iteraciones = iteraciones;
+	}
 	
+	public List<Dato> getDatos() {
+		return this.simulaciones;
+	}
 	
 	public List<Integer> pedirpaquete() {
-		this.cantPaquetes ++;
+		
 		return paquete.pedirPaquete(); 
 		
-	}
-	public int getPaquetesAbiertos() {
-		return cantPaquetes;
 	}
 }

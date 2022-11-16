@@ -1,4 +1,4 @@
-package albumDelMundial.backend;
+package albumDelMundial.backend.paquetes;
 
 import java.util.List;
 
