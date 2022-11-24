@@ -1,9 +1,15 @@
 package albumDelMundial.backend;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
+
+import albumDelMundial.backend.paquetes.IPaquete;
 
 public class Participante {
+	Logger logger = Logger.getLogger(Participante.class.getName());
 	private int id;
 	private List<Integer> figuritas;
 	private Album album;
@@ -24,25 +30,47 @@ public class Participante {
 	
 	//agarra las figuritas que tiene y carga el album
 	public void cargarAlbum() {
-		List<Integer> eliminar  = new ArrayList<Integer>();
-		for(int x = 0; x <= figuritas.size()-1; x++) {
-			if(!this.album.contieneFigurita(figuritas.get(x))) {
-				this.album.agregarFigurita(figuritas.get(x));
-				eliminar.add(x);
-			}
+		Iterator < Integer > itFiguritas = figuritas.iterator();
+		while (itFiguritas.hasNext()) {
+		  Integer figurita = itFiguritas.next();
+		  if(albumIsCompleto()) {
+			  continue;
+		  }
+		  try {
+			  if(!this.album.contieneFigurita(figurita)) {
+				  this.album.agregarFigurita(figurita);
+				  itFiguritas.remove();
+			  }
+		  }catch(InvalidParameterException e) {
+			  logger.info(e.toString());
+		  }
 		}
-		this.figuritas.removeAll(eliminar);
 		
 	}
 	
+	public boolean contieneFigurita(int figurita){
+		return album.contieneFigurita(figurita);
+	}
+	
 	public void recivirCarta(int numero) {
-		//validar si hay uno o mas figuritas con esta clave
-		this.figuritas.add(numero);
+		if(album.isFiguritaValida(numero)) 
+			this.figuritas.add(numero);
 	}; 
 	
 
+	/*
+	 * Los duplicados son aqueyas figuritas que no cargaron en el album
+	 */
 	public List<Integer> getDuplicados() {
 		return this.figuritas;
+	}
+	
+	public List<Integer> extraerDuplicados() {
+		List <Integer> res = new ArrayList<Integer>();
+		for(int f: this.figuritas)
+			res.add(f);
+		this.figuritas.clear();
+		return res;
 	}
 	
 	public boolean  albumIsCompleto() {

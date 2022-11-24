@@ -44,7 +44,7 @@ public class app {
 	 * Create the application.
 	 */
 	public app() {
-		PantallaSimulacion f= new PantallaSimulacion();
+		Router f= new Router();
 		f.getContentPane().setLayout(null);
 		
         f.setVisible(true); 

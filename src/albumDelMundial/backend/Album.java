@@ -1,8 +1,10 @@
 package albumDelMundial.backend;
 
+import java.security.InvalidParameterException;
+import java.util.logging.Logger;
 
 public class Album {
-	public final static int CANTIDAD_DE_FIGURITAS = 20;//redefinir lugar,  aca no va
+	public final static int CANTIDAD_DE_FIGURITAS = 638;//redefinir lugar
 	Integer[] figuritas;
 	private int completados;
 	
@@ -18,21 +20,27 @@ public class Album {
 		return this.completados;
 	}
 	
-	public boolean contieneFigurita(int key) {
-		return (figuritas[key] == 1);
+	public boolean contieneFigurita(int figurita) throws InvalidParameterException{
+		if(!isFiguritaValida(figurita)){
+			throw new InvalidParameterException("el numero de figurita '"+figurita+"' no es un valor valido");
+		}
+		return (figuritas[figurita] == 1);
 	}
 	
-	public void agregarFigurita(int key){
-		if(figuritas[key] == 1) {
-			//error o 
-		}else{
-			figuritas[key] = 1;
+	public void agregarFigurita(int figurita){
+		if(!isFiguritaValida(figurita)){
+			throw new InvalidParameterException("el numero de figurita '"+figurita+"' no es un valor valido");
+		}else if(figuritas[figurita] != 1) {
+			figuritas[figurita] = 1;
 			 this.completados++;
 		}
-		
 	}
 	
 	public boolean isCompleto() {
 		return completados == CANTIDAD_DE_FIGURITAS;
+	}
+	
+	public boolean isFiguritaValida(int figurita) {
+		return (figurita>=0 && figurita<CANTIDAD_DE_FIGURITAS);
 	}
 }

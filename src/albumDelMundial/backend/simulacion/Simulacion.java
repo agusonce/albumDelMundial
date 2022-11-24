@@ -11,19 +11,14 @@ import albumDelMundial.backend.paquetes.PaqueteEstandar;
 //import albumDelMundial.backend.serializacion.JsonFile;
 
 public class Simulacion implements ISimulacion{
-	private IPaquete paquete = new PaqueteEstandar();
+	private IPaquete paquete;
 	private List<Dato> simulaciones;
 	private int iteraciones;
 //	private String fileName = "example.json";
-	public Simulacion() {
-		 paquete = new PaqueteEstandar();
+	public Simulacion(IPaquete p) {
+		 paquete = p;
 		 this.iteraciones = 1;
 	}
-	public Simulacion(int iteraciones) {
-		 paquete = new PaqueteEstandar();
-		 this.iteraciones = iteraciones;
-	}
-	
 	
 	public void ejecutar() {
 		simulaciones = new ArrayList<Dato>();
@@ -31,8 +26,7 @@ public class Simulacion implements ISimulacion{
 		
 		Participante participante;
 		int cantPaquetes;
-		//_-____--WHILE---_-_____
-		for(int x = 0; x <= iteraciones ; x++) {
+		for(int x = 1; x <= iteraciones ; x++) {
 			fechaEjecucion = new Date();
 			cantPaquetes = 0;
 			participante = new Participante();
