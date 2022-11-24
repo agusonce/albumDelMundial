@@ -1,4 +1,4 @@
-package albumDelMundial;
+package albumDelMundial.frontend;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,8 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import albumDelMundial.backend.paquetes.PaqueteEstandar;
-import albumDelMundial.frontend.PantallaSimulacion;
-import albumDelMundial.frontend.PantallaSimulacionCompleja;
 
 public class Router extends JFrame{
 
